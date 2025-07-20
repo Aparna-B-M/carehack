@@ -37,27 +37,55 @@ export class AlphabetSoundBubblesComponent {
     { letter: 'Y', word: 'Yoyo', image: '🪀', description: 'A toy that goes up and down on a string.' },
     { letter: 'Z', word: 'Zebra', image: '🦓', description: 'An animal with black and white stripes that looks like a horse.' }
   ];
-mode: 'visual' | 'hearing' = 'visual'; 
+mode: 'visual' | 'hearing' | 'normal' = 'normal';
+ 
   activeItem: any = null;
-  
-  onBubbleClick(letterObj: any) {
-  this.activeItem = this.mode === 'hearing' ? letterObj : null;
-  if (this.mode === 'visual') {
+
+//   onBubbleClick(letterObj: any) {
+//   this.activeItem = this.mode === 'hearing' ? letterObj : null;
+//   if (this.mode === 'visual') {
+//     this.speak(`${letterObj.letter} for ${letterObj.word}`);
+//     setTimeout(() => {
+//       this.spellWord(letterObj.word);
+//     }, 400);
+//     const totalSpellingDelay = letterObj.word.length * 600;
+//     setTimeout(() => {
+//       if (letterObj.description) {
+//         this.speak(letterObj.description);
+//       }
+//     }, 1000 + totalSpellingDelay);
+//   }
+//   if (this.mode === 'hearing') {
+//     setTimeout(() => {
+//       this.activeItem = null;
+//     }, 30000); 
+//   }
+// }
+onBubbleClick(letterObj: any) {
+  // For hearing or normal mode, show visual
+  this.activeItem = (this.mode === 'hearing' || this.mode === 'normal') ? letterObj : null;
+
+  // For visual or normal mode, play speech
+  if (this.mode === 'visual' || this.mode === 'normal') {
     this.speak(`${letterObj.letter} for ${letterObj.word}`);
+
     setTimeout(() => {
       this.spellWord(letterObj.word);
     }, 400);
-    const totalSpellingDelay = letterObj.word.length * 600;
+
+    const spellingDelay = letterObj.word.length * 600;
     setTimeout(() => {
       if (letterObj.description) {
         this.speak(letterObj.description);
       }
-    }, 1000 + totalSpellingDelay);
+    }, 1000 + spellingDelay);
   }
-  if (this.mode === 'hearing') {
+
+  // Remove visual after few seconds
+  if (this.mode !== 'visual') {
     setTimeout(() => {
       this.activeItem = null;
-    }, 30000); 
+    }, 30000); // 30 seconds or any duration
   }
 }
 

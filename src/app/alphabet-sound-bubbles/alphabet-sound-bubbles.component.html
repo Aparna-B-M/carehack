@@ -8,15 +8,18 @@
     <input type="radio" name="mode" value="hearing" [(ngModel)]="mode" />
     Hearing Impaired (Visual)
   </label>
+    &nbsp;&nbsp;
+  <label>
+    <input type="radio" name="mode" value="normal" [(ngModel)]="mode" />
+    Normal (Visual + Sound)
+  </label>
+
 </div>
 
-<div *ngIf="activeItem" class="spelling-container">
-  <div class="emoji-large">{{ activeItem.image }}</div>
-  <div class="spelling">
-    <span *ngFor="let char of activeItem.word.split('')">{{ char | uppercase }} </span>
-  </div>
+<div *ngIf="activeItem && (mode === 'hearing' || mode === 'normal')" class="spelling-container">
+  <div class="emoji emoji-large">{{ activeItem.image }}</div>
+  <div class="spelling">{{ activeItem.word.toUpperCase().split('').join(' ') }}</div>
 </div>
-
 <div class="bubble-container">
   <div
     class="bubble"
